@@ -4,8 +4,6 @@ from schemas.chat_schema import ChatRequest, ChatResponse
 from services.chat_service import chat
 
 router = APIRouter()
-client = Groq(api_key="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")
-
 
 
 @router.post("/", response_model=ChatResponse)

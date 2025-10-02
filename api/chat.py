@@ -1,15 +1,12 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from groq import Groq
+from schemas.chat_schema import ChatRequest, ChatResponse
+from services.chat_service import chat
 
 router = APIRouter()
+client = Groq(api_key="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")
 
-# Request schema
-class ChatRequest(BaseModel):
-    message: str
 
-# Response schema
-class ChatResponse(BaseModel):
-    response: str
 
 @router.post("/", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
@@ -21,15 +18,6 @@ async def chat_endpoint(request: ChatRequest):
     """
     
     user_message = request.message.lower()
+    response = chat(user_message)
 
-    # Simple rule-based responses (can later plug in AI model)
-    if "hello" in user_message or "hi" in user_message:
-        bot_reply = "Hi there! 👋 How can I help you today?"
-    elif "bye" in user_message:
-        bot_reply = "Goodbye! Have a great day!"
-    elif "help" in user_message:
-        bot_reply = "Sure! You can ask me any question and I'll try to assist."
-    else:
-        bot_reply = "I'm just a simple chatbot 🤖. Try saying 'hello' or 'help'."
-
-    return ChatResponse(response=bot_reply)
+    return ChatResponse(response=response)

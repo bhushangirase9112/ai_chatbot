@@ -40,4 +40,5 @@ The Flutter frontend will consume this API.
 
 ### 4. Run the Server
     ###Use Uvicorn to start the FastAPI server:
-    uvicorn main:app --reload
+    
+uvicorn main:app --reload
